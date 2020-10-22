@@ -14,7 +14,12 @@ import lombok.Data;
 public class Employee {
 
     /**
-     * 名称
+     * 姓名
      */
     private String name;
+
+    public Employee changeName(Employee employee){
+        employee.setName("修改后的姓名");
+        return employee;
+    }
 }

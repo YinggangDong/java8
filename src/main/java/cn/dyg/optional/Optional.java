@@ -135,7 +135,10 @@ public final class Optional<T> {
     }
 
     /**
-     *
+     * flatMap方法参数为Function的实现类，且其返回值被限定为Optional对象
+     * 如果当前Optional的value为null，则直接返回空的Optional对象
+     * 否则执行参数重写的apply方法，并对返回值进行判断,
+     * 若返回值的value为null，抛异常，否则返回该Optional对象
      */
     public<U> Optional<U> flatMap(Function<? super T, Optional<U>> mapper) {
         Objects.requireNonNull(mapper);

@@ -1,5 +1,6 @@
 package cn.dyg.optional;
 
+import cn.dyg.methodref.Person;
 import com.sun.deploy.util.StringUtils;
 
 import java.util.ArrayList;
@@ -23,8 +24,11 @@ public class OptionalDemo {
 //        ofNullableTest();
 
 //        filterTest();
-        mapTest();
-
+//        mapTest();
+//        flatMapTest();
+//        orElseTest();
+//        orElseGetTest();
+        orElseThrowTest();
     }
 
     /**
@@ -127,7 +131,7 @@ public class OptionalDemo {
             optional.ifPresent(nameList::add);
         }
         System.out.println(nameList.toString());
-
+        //List通过stream进行
         List<String> nameStreamList =
                 employeeList.stream().map(Employee::getName).collect(Collectors.toList());
         System.out.println(nameStreamList.toString());
@@ -135,10 +139,68 @@ public class OptionalDemo {
 
     /**
      * flatMap方法测试
+     * 调用changeName方法修改employee的name并输出
+     * 和map的主要区别是flatMap要求返回值必须为Optional对象,而map可以为任意对象
      */
     private static void flatMapTest() {
-        Optional optional = Optional.of("name");
-        optional.flatMap(Optional::of).ifPresent(System.out::println);
+        System.out.println("flatMap测试");
+        Employee employee = new Employee("王五");
+        Optional<Employee> optional = Optional.of(employee);
+        optional.flatMap((value)->Optional.ofNullable(employee.changeName(value)))
+                .ifPresent(System.out::println);
+
+    }
+
+    /**
+     * orElse方法测试
+     * 当optional的value为null时，返回orElse的入参值
+     * 否则返回value值
+     */
+    private static void orElseTest(){
+        System.out.println("orElseTest测试");
+        Optional<String> optional = Optional.ofNullable(null);
+        String defaultValue = optional.orElse("default");
+        System.out.println(defaultValue);
+
+        Optional<String> optional1 = Optional.ofNullable("原值");
+        String defaultValue1 = optional1.orElse("default");
+        System.out.println(defaultValue1);
+    }
+
+    /**
+     * orElseGet方法测试
+     * 和orElse的区别是orElse指定了对象，orElseGet的参数是指定了一个 Supplier 接口的实现类
+     * 当optional的value为null时，返回orElseGet的参数的返回值
+     * 否则返回value值
+     */
+    private static void orElseGetTest(){
+        System.out.println("orElseGet测试");
+        Optional<String> optional = Optional.ofNullable(null);
+        String defaultValue = optional.orElseGet(()->"默认值");
+        System.out.println(defaultValue);
+
+        Optional<String> optional1 = Optional.ofNullable("原值");
+        String defaultValue1 = optional1.orElseGet(()->"默认值");
+        System.out.println(defaultValue1);
+    }
+
+    /**
+     * orElseThrow方法测试
+     * 和orElse的区别是orElse指定了对象，orElseThrow的参数是指定了一个 Supplier 接口的实现类
+     * 并且该实现类的返回值被限定为 Throwable 的子类
+     * 当optional的value为null时，抛出orElseThrow的参数的get方法返回的异常
+     * 否则返回value值
+     */
+    private static void orElseThrowTest(){
+        System.out.println("orElseThrow测试");
+
+        Optional<String> optional1 = Optional.ofNullable("原值");
+        String defaultValue1 = optional1.orElseThrow(NoSuchElementException::new);
+        System.out.println(defaultValue1);
+
+        Optional<String> optional = Optional.ofNullable(null);
+        String defaultValue = optional.orElseThrow(NoSuchElementException::new);
+        System.out.println(defaultValue);
 
     }
 
