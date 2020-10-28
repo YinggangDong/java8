@@ -15,10 +15,10 @@ import java.util.stream.Stream;
  **/
 public class StreamDemo {
     public static void main(String[] args) {
-        String[] array = {"张三","李四","王五","张三丰"};
+        String[] array = {"张三", "李四", "王五", "张三丰"};
         Stream<String> namestrs = Stream.of(array);
 
-        Stream<String> nameStrs3 = Stream.of("张三","李四","王五","张三丰");
+        Stream<String> nameStrs3 = Stream.of("张三", "李四", "王五", "张三丰");
 
         try {
             Stream<String> lines = Files.lines(Paths.get("file.txt"));
@@ -29,9 +29,13 @@ public class StreamDemo {
         Stream<Integer> stream5 = Stream.generate(new Random()::nextInt)
                 .limit(10);
 //        stream5.forEach(System.out::println);
-        //流只能使用一次,不能进行重置
-        stream5.filter((a)->a>0).map((a)-> "正整数："+a).collect(Collectors.toList())
-        .forEach(System.out::println);
+        //流只能使用一次,也没有重置的可能性,可以理解为
+        stream5.filter((a) -> a > 0).map((a) -> "正整数：" + a).
+                collect(Collectors.toList()).forEach(System.out::println);
+        System.out.println("Stream重新赋值后：");
+        stream5 = Stream.generate(new Random()::nextInt);
+        stream5.filter((a) -> a > 0).map((a) -> "正整数：" + a).
+                collect(Collectors.toList()).forEach(System.out::println);
 
     }
 }
