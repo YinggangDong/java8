@@ -3,6 +3,7 @@ package cn.dyg.stream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,9 +34,22 @@ public class StreamDemo {
         stream5.filter((a) -> a > 0).map((a) -> "正整数：" + a).
                 collect(Collectors.toList()).forEach(System.out::println);
         System.out.println("Stream重新赋值后：");
-        stream5 = Stream.generate(new Random()::nextInt);
-        stream5.filter((a) -> a > 0).map((a) -> "正整数：" + a).
+        Stream<Integer> stream6 = Stream.generate(new Random()::nextInt).limit(10);
+        stream6.filter((a) -> a > 0).map((a) -> "正整数：" + a).
                 collect(Collectors.toList()).forEach(System.out::println);
+
+        Stream.generate(() -> new Random().nextInt() + "123")
+                .limit(10).mapToInt((item) -> Integer.valueOf(item.length())).forEach(System.out::println);
+
+        Optional accResult = Stream.of(1, 2, 3, 4).reduce((acc, item) -> {
+            System.out.println("acc : " + acc);
+            acc += item;
+            System.out.println("item: " + item);
+            System.out.println("acc+ : " + acc);
+            System.out.println("--------");
+            return acc;
+        });
+        System.out.println(accResult);
 
     }
 }
