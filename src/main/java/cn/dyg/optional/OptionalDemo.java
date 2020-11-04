@@ -1,13 +1,8 @@
 package cn.dyg.optional;
 
-import cn.dyg.methodref.Person;
-import com.sun.deploy.util.StringUtils;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -203,5 +198,36 @@ public class OptionalDemo {
         System.out.println(defaultValue);
 
     }
+
+
+    /*
+     Optional 的生产及应用如下
+     */
+    /**
+     *
+     * getRuleMap 方法是 查询维修中心时效规则Map
+     *
+     * @return 时效规则Map
+     * @author dongyinggang
+     * @date 2020/11/4 9:13
+     */
+//    private Map<String, String> getRuleMap() {
+//        try {
+//            //调用BBPF的字典项,获取维修中心时效规则
+//            log.info("调用字典接口查询维修中心时效规则--开始--->");
+//            long start = System.currentTimeMillis();
+//            CallResponse<List<DictValue>> callResponse =
+//                    dictValueService.getDictValueListByDictTypeCode(McTimeRuleConstant.MC_TIME_RULE);
+//            log.info("调用字典接口查询维修中心时效规则--结束--->,耗时{}ms,结果{}", System.currentTimeMillis() - start, callResponse);
+//            //判断返回值是否为空,然后比较返回值code是否为"00",BBPF返回的正确返回值为"00"
+//            List<DictValue> ruleList = Optional.ofNullable(callResponse)
+//                    .filter((s) -> "00".equals(s.getCode()))
+//                    .map(CallResponse::getResult).orElseGet(ArrayList::new);
+//            //ruleList转为Map
+//            return ruleList.stream().collect(Collectors.toMap(DictValue::getValueName, DictValue::getValueCode, (key1, key2) -> key2));
+//        } catch (Exception e) {
+//            throw new BusinessRuntimeException(McErrorCodeEnum.DICT_EXCEPTION.getCode(), McErrorCodeEnum.DICT_EXCEPTION.getMessage());
+//        }
+//    }
 
 }
