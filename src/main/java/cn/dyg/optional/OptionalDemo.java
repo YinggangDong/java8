@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * OptionalDemo 类是 Optional的样例类
@@ -22,11 +23,12 @@ public class OptionalDemo {
 
 //        filterTest();
 //        mapTest();
-        mapTest2();
+//        mapTest2();
 //        flatMapTest();
 //        orElseTest();
 //        orElseGetTest();
 //        orElseThrowTest();
+        isPresentTest2();
 
     }
 
@@ -90,6 +92,19 @@ public class OptionalDemo {
             //与上方等价,若value值存在,执行lambda表达式重写的Consumer的accept方法
             strOptional.ifPresent(System.out::println);
         }
+    }
+
+    private static void isPresentTest2(){
+        List<String> totalList = Stream.of("1","2","3").collect(Collectors.toList());
+        List<String> failList = Stream.of("1","2","3").collect(Collectors.toList());
+//        List<String> failList = new ArrayList<>();
+        List<String> successList = totalList.stream().filter(item->!failList.contains(item)).collect(Collectors.toList());
+        Optional.ofNullable(successList).ifPresent(item ->successList.forEach(System.out::println));
+        //当successList为空时,会被filter过滤,不会再执行后面的输出
+        Optional.ofNullable(successList).filter(list->successList.size()>0)
+                .ifPresent((item)-> System.out.println("不为空"));
+        totalList.removeAll(failList);
+        Optional.ofNullable(totalList).ifPresent(item ->totalList.forEach(System.out::println));
     }
 
     /**
