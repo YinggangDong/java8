@@ -1,7 +1,9 @@
 package cn.dyg.optional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -20,10 +22,12 @@ public class OptionalDemo {
 
 //        filterTest();
 //        mapTest();
+        mapTest2();
 //        flatMapTest();
 //        orElseTest();
 //        orElseGetTest();
-        orElseThrowTest();
+//        orElseThrowTest();
+
     }
 
     /**
@@ -130,6 +134,18 @@ public class OptionalDemo {
         List<String> nameStreamList =
                 employeeList.stream().map(Employee::getName).collect(Collectors.toList());
         System.out.println(nameStreamList.toString());
+    }
+
+    private static void mapTest2(){
+        Employee employee = new Employee("张三");
+        Employee employee1 = new Employee("李四");
+        Employee employee2 = new Employee(null);
+        Map<String,Employee> map = new HashMap<>();
+        map.put("1",employee);
+        map.put("2",employee1);
+        map.put("3",employee2);
+        String name = Optional.ofNullable(map.get("4")).map(Employee::getName).orElse("123");
+        System.out.println(name);
     }
 
     /**
