@@ -38,7 +38,7 @@ public class OptionalDemo {
      * 返回一个value为null的Optional对象
      * 由于value为null,本方法输出null
      */
-    private static void emptyTest(){
+    private static void emptyTest() {
         Optional empty = Optional.empty();
         System.out.println(empty);
     }
@@ -47,7 +47,7 @@ public class OptionalDemo {
      * of()方法测试
      * 输出optional对象的value值-name
      */
-    private static void ofTest(){
+    private static void ofTest() {
         System.out.println("of()方法测试");
         //1.of方法为非null的值创建一个Optional。
         Optional optional = Optional.of("name");
@@ -63,13 +63,13 @@ public class OptionalDemo {
      * 返回的Optional对象调用orElse方法,
      * 若Optional的value为空则将其赋值为orElse方法的参数,通常用来给null赋默认值
      */
-    private static void ofNullableTest(){
+    private static void ofNullableTest() {
         System.out.println("ofNullable()方法测试:");
         Optional<String> empty = Optional.ofNullable(null);
         try {
             //抛出异常,NoSuchElementException
             System.out.println(empty.get());
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             System.out.println("value为空,没有输出");
         }
         Optional<String> value = Optional.ofNullable("value");
@@ -81,13 +81,13 @@ public class OptionalDemo {
      * isPresent方法测试
      * 同时进行ifPresent方法的测试
      */
-    private static void isPresentTest(){
+    private static void isPresentTest() {
         //3.通过Optional的方法进行strings的非null值输出
-        String[] strings = new String[]{"1",null,"3","4",null};
+        String[] strings = new String[]{"1", null, "3", "4", null};
         for (String string : strings) {
             Optional<String> strOptional = Optional.ofNullable(string);
             //isPresent,若value值存在,返回true,否则返回false
-            if(strOptional.isPresent()){
+            if (strOptional.isPresent()) {
                 System.out.println(strOptional.get());
             }
             //与上方等价,若value值存在,执行lambda表达式重写的Consumer的accept方法
@@ -95,32 +95,32 @@ public class OptionalDemo {
         }
     }
 
-    private static void isPresentTest2(){
-        List<String> totalList = Stream.of("1","2","3").collect(Collectors.toList());
-        List<String> failList = Stream.of("1","2","3").collect(Collectors.toList());
+    private static void isPresentTest2() {
+        List<String> totalList = Stream.of("1", "2", "3").collect(Collectors.toList());
+        List<String> failList = Stream.of("1", "2", "3").collect(Collectors.toList());
 //        List<String> failList = new ArrayList<>();
-        List<String> successList = totalList.stream().filter(item->!failList.contains(item)).collect(Collectors.toList());
-        Optional.ofNullable(successList).ifPresent(item ->successList.forEach(System.out::println));
+        List<String> successList = totalList.stream().filter(item -> !failList.contains(item)).collect(Collectors.toList());
+        Optional.ofNullable(successList).ifPresent(item -> successList.forEach(System.out::println));
         //当successList为空时,会被filter过滤,不会再执行后面的输出
         //ifPresent完成了判null操作,filter完成了判空操作
-        Optional.ofNullable(successList).filter(list->successList.size()>0)
-                .ifPresent((item)-> System.out.println("不为空"));
+        Optional.ofNullable(successList).filter(list -> successList.size() > 0)
+                .ifPresent((item) -> System.out.println("不为空"));
         totalList.removeAll(failList);
-        Optional.ofNullable(totalList).ifPresent(item ->totalList.forEach(System.out::println));
+        Optional.ofNullable(totalList).ifPresent(item -> totalList.forEach(System.out::println));
     }
 
     /**
      * filter方法测试
      * 将String数组中长度大于1的元素取出来放到新的List中去
      */
-    private static void filterTest(){
+    private static void filterTest() {
         System.out.println("filter方法测试：");
-        String[] strings = new String[]{"1",null,"31","41",null};
+        String[] strings = new String[]{"1", null, "31", "41", null};
         List<String> newString = new ArrayList<>();
         for (String string : strings) {
             //将strings中长度大于1的字符串筛选出来
             Optional<String> strOptional =
-                    Optional.ofNullable(string).filter((s)->s.length()>1);
+                    Optional.ofNullable(string).filter((s) -> s.length() > 1);
             strOptional.ifPresent(newString::add);
         }
         System.out.println(newString.toString());
@@ -130,7 +130,7 @@ public class OptionalDemo {
      * map方法测试
      * 将员工list中的名称写成一个新的list
      */
-    private static void mapTest(){
+    private static void mapTest() {
         System.out.println("map方法测试");
         Employee employee = new Employee("张三");
         Employee employee1 = new Employee("李四");
@@ -153,14 +153,14 @@ public class OptionalDemo {
         System.out.println(nameStreamList.toString());
     }
 
-    private static void mapTest2(){
+    private static void mapTest2() {
         Employee employee = new Employee("张三");
         Employee employee1 = new Employee("李四");
         Employee employee2 = new Employee(null);
-        Map<String,Employee> map = new HashMap<>();
-        map.put("1",employee);
-        map.put("2",employee1);
-        map.put("3",employee2);
+        Map<String, Employee> map = new HashMap<>();
+        map.put("1", employee);
+        map.put("2", employee1);
+        map.put("3", employee2);
         String name = Optional.ofNullable(map.get("4")).map(Employee::getName).orElse("123");
         System.out.println(name);
     }
@@ -174,7 +174,7 @@ public class OptionalDemo {
         System.out.println("flatMap测试");
         Employee employee = new Employee("王五");
         Optional<Employee> optional = Optional.of(employee);
-        optional.flatMap((value)->Optional.ofNullable(employee.changeName(value)))
+        optional.flatMap((value) -> Optional.ofNullable(employee.changeName(value)))
                 .ifPresent(System.out::println);
 
     }
@@ -184,7 +184,7 @@ public class OptionalDemo {
      * 当optional的value为null时，返回orElse的入参值
      * 否则返回value值
      */
-    private static void orElseTest(){
+    private static void orElseTest() {
         System.out.println("orElseTest测试");
         Optional<String> optional = Optional.ofNullable(null);
         String defaultValue = optional.orElse("default");
@@ -201,14 +201,14 @@ public class OptionalDemo {
      * 当optional的value为null时，返回orElseGet的参数的返回值
      * 否则返回value值
      */
-    private static void orElseGetTest(){
+    private static void orElseGetTest() {
         System.out.println("orElseGet测试");
         Optional<String> optional = Optional.ofNullable(null);
-        String defaultValue = optional.orElseGet(()->"默认值");
+        String defaultValue = optional.orElseGet(() -> "默认值");
         System.out.println(defaultValue);
 
         Optional<String> optional1 = Optional.ofNullable("原值");
-        String defaultValue1 = optional1.orElseGet(()->"默认值");
+        String defaultValue1 = optional1.orElseGet(() -> "默认值");
         System.out.println(defaultValue1);
     }
 
@@ -219,7 +219,7 @@ public class OptionalDemo {
      * 当optional的value为null时，抛出orElseThrow的参数的get方法返回的异常
      * 否则返回value值
      */
-    private static void orElseThrowTest(){
+    private static void orElseThrowTest() {
         System.out.println("orElseThrow测试");
 
         Optional<String> optional1 = Optional.ofNullable("原值");
