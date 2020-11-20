@@ -101,6 +101,7 @@ public class OptionalDemo {
         List<String> successList = totalList.stream().filter(item->!failList.contains(item)).collect(Collectors.toList());
         Optional.ofNullable(successList).ifPresent(item ->successList.forEach(System.out::println));
         //当successList为空时,会被filter过滤,不会再执行后面的输出
+        //ifPresent完成了判null操作,filter完成了判空操作
         Optional.ofNullable(successList).filter(list->successList.size()>0)
                 .ifPresent((item)-> System.out.println("不为空"));
         totalList.removeAll(failList);
