@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 /**
  * ComputeIfAbsentTest 类是 computeIfAbsent方法测试
+ * 参考内容：https://www.jianshu.com/p/8ed5d0f2bff2
  *
  * @author dongyinggang
  * @date 2021-04-29 09:25
